@@ -48,7 +48,16 @@ try {
         body: JSON.stringify({ prompt })
     });
 
-    const data = await response.json();
+    const text = await response.text();
+let data;
+
+try {
+    data = JSON.parse(text);
+} catch {
+    throw new Error(
+        "The server is temporarily unavailable. Please try again."
+    );
+}
 
     if (!response.ok) {
         throw new Error(data.detail || "AI request failed.");
