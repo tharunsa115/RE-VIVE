@@ -67,7 +67,13 @@ document.getElementById("rescueForm").addEventListener("submit",async e=>{
  if(photo)data.append("file",photo);
  try{
   const response=await fetch("/ecorescue-plan",{method:"POST",body:data});
-  const body=await response.json();
+  const raw = await response.text();
+let body;
+try {
+  body = JSON.parse(raw);
+} catch {
+  throw new Error("Server temporarily unavailable. Please try again.");
+}
   if(!response.ok)throw new Error(body.detail||"Plan failed");
   result.textContent=body.result;
  }catch(err){result.textContent="Could not create plan: "+err.message}

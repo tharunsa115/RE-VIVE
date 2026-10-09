@@ -78,7 +78,13 @@ data.append("purchase_date",document.getElementById("purchase_date").value);
  if(photo)data.append("file",photo);
  try{
   const response=await fetch("/freshguard-check",{method:"POST",body:data});
-  const body=await response.json();
+ const raw = await response.text();
+let body;
+try {
+  body = JSON.parse(raw);
+} catch {
+  throw new Error("Server temporarily unavailable. Please try again.");
+}
   if(!response.ok)throw new Error(body.detail||"Check failed");
   result.textContent=body.result;
  }catch(err){result.textContent="Could not check product: "+err.message}
