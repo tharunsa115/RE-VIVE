@@ -1,16 +1,19 @@
 
-from ollama import chat
+import os
+from google import genai
 
 
 def ask_ai(prompt: str) -> str:
-    response = chat(
-        model="llama3.2",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY is missing from environment variables.")
+
+    client = genai.Client(api_key=api_key)
+
+    response = client.models.generate_content(
+        model="gemini-3.8-flash",
+        contents=prompt
     )
 
-    return response["message"]["content"].strip()
+    return (response.text or "Sorry, I couldn't generate a response.").strip()
