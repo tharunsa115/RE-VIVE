@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FreshGuard AI | RE:VIVE</title>
+<link rel="stylesheet" href="/static/style.css">
+<style>
+body{background:#10291f;color:white;font-family:Arial,sans-serif}
+main{max-width:900px;margin:35px auto;padding:20px}
+.panel{background:#244c36;padding:24px;border-radius:18px;margin:20px 0}
+input,textarea,button{box-sizing:border-box;width:100%;padding:13px;margin:8px 0;border-radius:9px;font:inherit}
+
+input,
+textarea,
+input:focus,
+textarea:focus,
+input:active,
+textarea:active,
+input[type="date"],
+input[type="file"] {
+    background-color: #ffffff !important;
+    color: #183b2c !important;
+    -webkit-text-fill-color: #183b2c !important;
+    caret-color: #183b2c !important;
+    border: 1px solid #b7d2bd !important;
+    opacity: 1 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #66756b !important;
+    -webkit-text-fill-color: #66756b !important;
+    opacity: 1 !important;
+}
+button{background:#e5f4e8;color:#183b2c;border:0;font-weight:bold;cursor:pointer}
+a{color:#e5f4e8}
+#result{white-space:pre-wrap;line-height:1.7}
+</style>
+</head>
+<body>
+<main>
+<a href="/dashboard">← Back to Dashboard</a>
+<h1>🍎 FreshGuard AI</h1>
+<p>Understand food labels, track expiry dates, and reduce food waste.</p>
+<section class="panel">
+<h2>Check a food product</h2>
+<form id="foodForm">
+<label>Product name</label>
+<input id="product" required placeholder="e.g. milk, yogurt, packaged bread">
+
+<label>Purchase Date</label>
+<input id="purchase_date" type="date">
+<label>Printed expiry / best-before date</label>
+<input id="expiry" type="date">
+<label>How was it stored? When was it opened?</label>
+<textarea id="storage" placeholder="e.g. Refrigerated, opened yesterday"></textarea>
+<label>Optional package photo</label>
+<input id="photo" type="file" accept="image/*">
+<button type="submit">Check Product with AI</button>
+</form>
+<div id="result" role="status"></div>
+</section>
+<p><strong>Safety note:</strong> A date or photo cannot guarantee food safety. Follow package instructions and discard food with signs of spoilage or unsafe storage.</p>
+<p><a href="/ecorescue">Explore EcoRescue AI →</a></p>
+</main>
+<script>
+document.getElementById("foodForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const result=document.getElementById("result");
+ result.textContent="Checking product...";
+ const data=new FormData();
+ data.append("product",document.getElementById("product").value);
+data.append("purchase_date",document.getElementById("purchase_date").value);
+ data.append("expiry_date",document.getElementById("expiry").value);
+ data.append("storage",document.getElementById("storage").value);
+ const photo=document.getElementById("photo").files[0];
+ if(photo)data.append("file",photo);
+ try{
+  const response=await fetch("/freshguard-check",{method:"POST",body:data});
+  const body=await response.json();
+  if(!response.ok)throw new Error(body.detail||"Check failed");
+  result.textContent=body.result;
+ }catch(err){result.textContent="Could not check product: "+err.message}
+});
+</script>
+</body>
+</html>

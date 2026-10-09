@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EcoRescue AI | RE:VIVE</title>
+<link rel="stylesheet" href="/static/style.css">
+<style>
+body{background:#10291f;color:white;font-family:Arial,sans-serif}
+main{max-width:900px;margin:35px auto;padding:20px}
+.panel{background:#244c36;padding:24px;border-radius:18px;margin:20px 0}
+input,textarea,button{box-sizing:border-box;width:100%;padding:13px;margin:8px 0;border-radius:9px;font:inherit}
+input,
+textarea,
+input:focus,
+textarea:focus,
+input:active,
+textarea:active {
+    background: #ffffff !important;
+    color: #183b2c !important;
+    -webkit-text-fill-color: #183b2c !important;
+    caret-color: #183b2c !important;
+    border: 1px solid #b7d2bd;
+    opacity: 1;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #66756b !important;
+    -webkit-text-fill-color: #66756b !important;
+    opacity: 1;
+}
+button{background:#e5f4e8;color:#183b2c;border:0;font-weight:bold;cursor:pointer}
+a{color:#e5f4e8}
+#result{white-space:pre-wrap;line-height:1.7}
+</style>
+</head>
+<body>
+<main>
+<a href="/dashboard">← Back to Dashboard</a>
+<h1>🌍 EcoRescue AI</h1>
+<p>Give everyday items a second life through reuse, repair, donation, and recycling.</p>
+<section class="panel">
+<h2>Rescue an item</h2>
+<form id="rescueForm">
+<label>What item do you have?</label>
+<input id="item" required placeholder="e.g. broken headphones, old jeans, glass jars">
+<label>Condition and materials (if known)</label>
+<textarea id="condition" placeholder="What is damaged? What materials are visible?"></textarea>
+<label>Optional photo</label>
+<input id="photo" type="file" accept="image/*">
+<button type="submit">Generate Rescue Plan</button>
+</form>
+<div id="result" role="status"></div>
+</section>
+<p><a href="/freshguard">← Check food with FreshGuard AI</a></p>
+</main>
+<script>
+document.getElementById("rescueForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const result=document.getElementById("result");
+ result.textContent="Generating your rescue plan...";
+ const data=new FormData();
+ data.append("item",document.getElementById("item").value);
+ data.append("condition",document.getElementById("condition").value);
+ const photo=document.getElementById("photo").files[0];
+ if(photo)data.append("file",photo);
+ try{
+  const response=await fetch("/ecorescue-plan",{method:"POST",body:data});
+  const body=await response.json();
+  if(!response.ok)throw new Error(body.detail||"Plan failed");
+  result.textContent=body.result;
+ }catch(err){result.textContent="Could not create plan: "+err.message}
+});
+</script>
+</body>
+</html>

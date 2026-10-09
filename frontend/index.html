@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#10291f">
+
+    <title>RE:VIVE — Elementra</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- Ambient autumn atmosphere -->
+    <div class="autumn-leaves" aria-hidden="true">
+        <span>🍂</span>
+        <span>🍁</span>
+        <span>🍂</span>
+        <span>🍁</span>
+        <span>🍂</span>
+        <span>🍁</span>
+        <span>🍂</span>
+        <span>🍁</span>
+    </div>
+
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="RE:VIVE Elementra home">
+            <div class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none">
+                    <path d="M24 39V22" stroke="currentColor"
+                          stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M24 29C12 29 8 21 9 11C20 11 27 16 24 29Z"
+                          fill="currentColor" opacity=".9"/>
+                    <path d="M24 23C24 12 31 7 41 8C41 19 34 25 24 23Z"
+                          fill="#D9B86C"/>
+                </svg>
+            </div>
+
+            <div class="brand-copy">
+                <h1>RE:VIVE <span>Elementra</span></h1>
+                <p>INTELLIGENT MATERIAL RECOVERY</p>
+            </div>
+        </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link active">AI Workspace</a>
+        <a href="/dashboard" class="nav-link">Dashboard</a>
+    </nav>
+
+    <div class="status-badge">
+        <span class="status-dot"></span>
+        AI WORKSPACE
+    </div>
+
+    </header>
+
+    <main class="dashboard">
+
+        <section class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">
+                    <span class="eyebrow-line"></span>
+                    PROMPTVERSE AI · HACKATHON PROJECT
+                </p>
+
+                <h2>
+                    Waste less.<br>
+                    <span>Discover more.</span>
+                </h2>
+
+                <p class="hero-description">
+                    Give discarded electronics a second life.
+                    Explore material insights, identify potential risks,
+                    and discover smarter recovery pathways with AI.
+                </p>
+
+                <div class="hero-pills">
+                    <span>◈ Material insights</span>
+                    <span>↗ Responsible recovery</span>
+                    <span>✳ Circular future</span>
+                </div>
+            </div>
+
+            <div class="hero-art" aria-hidden="true">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+
+                <div class="earth-glow"></div>
+
+                <div class="earth">
+                    <svg viewBox="0 0 200 200" fill="none">
+                        <circle cx="100" cy="100" r="75"
+                                fill="#9AAE72" opacity=".16"/>
+                        <path d="M100 25C141 25 175 58 175 100"
+                              stroke="#E1D0A0" stroke-width="1.5"
+                              stroke-linecap="round" opacity=".8"/>
+                        <path d="M175 100C175 141 141 175 100 175"
+                              stroke="#B9C995" stroke-width="1.5"
+                              stroke-linecap="round" opacity=".6"/>
+                        <path d="M100 25C65 47 54 74 60 100C66 126 80 151 100 175"
+                              stroke="#C6D5A4" stroke-width="1.5"
+                              opacity=".65"/>
+                        <path d="M31 75C65 91 135 91 169 75"
+                              stroke="#C6D5A4" stroke-width="1.5"
+                              opacity=".65"/>
+                        <path d="M31 125C65 109 135 109 169 125"
+                              stroke="#C6D5A4" stroke-width="1.5"
+                              opacity=".65"/>
+                        <path d="M100 25C80 52 80 148 100 175"
+                              stroke="#C6D5A4" stroke-width="1.5"
+                              opacity=".45"/>
+                        <path d="M56 57L78 49L91 62L85 80L65 83L49 72Z"
+                              fill="#D9B86C" opacity=".9"/>
+                        <path d="M110 83L136 74L153 91L145 112L125 117L110 104Z"
+                              fill="#D9B86C" opacity=".75"/>
+                        <path d="M74 124L93 116L110 133L102 151L81 153L69 139Z"
+                              fill="#D9B86C" opacity=".7"/>
+                        <circle cx="100" cy="100" r="75"
+                                stroke="#E5D8B2" stroke-width="1.5"
+                                opacity=".85"/>
+                    </svg>
+                </div>
+
+                <div class="orbit-point point-one"></div>
+                <div class="orbit-point point-two"></div>
+                <div class="orbit-point point-three"></div>
+
+                <div class="art-caption">
+                    <span class="caption-dot"></span>
+                    A MORE CIRCULAR FUTURE
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace-intro">
+            <div>
+                <p class="eyebrow">YOUR RECOVERY STUDIO</p>
+                <h2>Turn discarded into discovered.</h2>
+            </div>
+            <p class="workspace-note">
+                Start with a prompt, a file, or both.
+            </p>
+        </section>
+
+        <div class="workspace-grid">
+
+            <section class="panel input-panel">
+                <div class="section-heading">
+                    <div class="heading-title">
+                        <span class="section-index">01</span>
+                        <div>
+                            <p class="eyebrow">INPUT</p>
+                            <h2>AI Workspace</h2>
+                        </div>
+                    </div>
+                    <span class="heading-symbol" aria-hidden="true">↗</span>
+                </div>
+
+                <p class="panel-description">
+                    Tell Elementra what you want to understand.
+                </p>
+
+                <label for="prompt">Your instructions</label>
+
+                <textarea
+                    id="prompt"
+                    rows="5"
+                    placeholder="e.g. Analyze this old smartphone, identify likely recoverable materials, and suggest safe next steps."
+                ></textarea>
+
+                <div class="label-row">
+                    <label for="fileInput">Your file</label>
+                    <span class="optional-label">IMAGE OR DOCUMENT</span>
+                </div>
+
+                <div class="upload-area">
+                    <div class="upload-symbol" aria-hidden="true">
+                        <svg viewBox="0 0 32 32" fill="none">
+                            <path d="M16 21V6M10 12L16 6L22 12"
+                                  stroke="currentColor" stroke-width="1.8"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                            <path d="M7 20V25C7 26.1 7.9 27 9 27H23C24.1 27 25 26.1 25 25V20"
+                                  stroke="currentColor" stroke-width="1.8"
+                                  stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                    <p class="upload-title">Bring your file into the studio</p>
+                    <p class="muted">
+                        Choose an image or a supported document below.
+                    </p>
+
+                    <input type="file" id="fileInput"
+                           accept="image/*,.pdf,.txt,.doc,.docx">
+                </div>
+
+                <div id="uploadStatus" aria-live="polite"></div>
+
+                <button id="uploadButton" class="secondary-button" type="button">
+                    <span>Upload file</span>
+                    <span aria-hidden="true">↑</span>
+                </button>
+
+                <button id="askButton" class="primary-button" type="button">
+                    <span>Analyze with AI</span>
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <div class="privacy-note">
+                    <span aria-hidden="true">✳</span>
+                    AI-generated insights should be verified before handling
+                    or recovering hazardous materials.
+                </div>
+            </section>
+
+            <section class="panel result-panel">
+                <div class="section-heading">
+                    <div class="heading-title">
+                        <span class="section-index">02</span>
+                        <div>
+                            <p class="eyebrow">INSIGHTS</p>
+                            <h2>Recovery Passport</h2>
+                        </div>
+                    </div>
+                    <span class="heading-symbol passport-symbol"
+                          aria-hidden="true">✳</span>
+                </div>
+
+                <p class="panel-description">
+                    Your material intelligence, all in one place.
+                </p>
+
+                <div class="result-meta">
+                    <span class="result-meta-dot"></span>
+                    ANALYSIS OUTPUT
+                </div>
+
+                <div id="loading" hidden aria-live="polite">
+                    <div class="loading-spinner"></div>
+                    <div>
+                        <p class="loading-title">Exploring your materials...</p>
+                        <p class="muted">
+                            The AI is processing your request.
+                            This may take a moment.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="error" hidden role="alert"></div>
+
+                <div id="response" aria-live="polite">
+                    <div class="empty-state">
+                        <div class="empty-icon" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="32" r="25"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        opacity=".4"/>
+                                <path d="M21 41L42 20M24 20H42V38"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                                <circle cx="17" cy="17" r="3"
+                                        fill="#D9B86C"/>
+                                <circle cx="47" cy="47" r="3"
+                                        fill="#D9B86C"/>
+                            </svg>
+                        </div>
+
+                        <p class="eyebrow">READY WHEN YOU ARE</p>
+                        <h3>Your next discovery starts here.</h3>
+
+                        <p class="empty-description">
+                            Add a file or write a prompt, then start your
+                            analysis. Your recovery insights will appear here.
+                        </p>
+
+                        <div class="feature-list">
+                            <div>
+                                <span class="feature-number">01</span>
+                                <span>Material identification</span>
+                                <span class="feature-arrow">↗</span>
+                            </div>
+                            <div>
+                                <span class="feature-number">02</span>
+                                <span>Safety considerations</span>
+                                <span class="feature-arrow">↗</span>
+                            </div>
+                            <div>
+                                <span class="feature-number">03</span>
+                                <span>Recovery recommendations</span>
+                                <span class="feature-arrow">↗</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-footer">
+                    <span>RE:VIVE INTELLIGENCE</span>
+                    <span>THINK CIRCULAR.</span>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <span class="footer-mark">✳</span>
+                <span>RE:VIVE <span class="footer-divider">/</span> ELEMENTRA</span>
+            </div>
+            <p>Recover resources. Rethink waste.</p>
+            <span class="footer-tag">DESIGNED FOR A CIRCULAR FUTURE</span>
+        </footer>
+
+    </main>
+
+<script>
+(() => {
+    const video = document.getElementById("cameraPreview");
+    const canvas = document.getElementById("cameraCanvas");
+    const preview = document.getElementById("capturedPreview");
+    const status = document.getElementById("cameraStatus");
+    const fileInput = document.getElementById("fileInput");
+
+    const startButton = document.getElementById("startCamera");
+    const captureButton = document.getElementById("capturePhoto");
+    const retakeButton = document.getElementById("retakePhoto");
+    const stopButton = document.getElementById("stopCamera");
+
+    let stream = null;
+
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+        }
+
+        video.srcObject = null;
+        video.hidden = true;
+        captureButton.disabled = true;
+        stopButton.disabled = true;
+        startButton.disabled = false;
+    }
+
+    async function startCamera() {
+        if (!navigator.mediaDevices?.getUserMedia) {
+            status.textContent =
+                "Camera access is unavailable. Open the site on localhost or HTTPS using a supported browser.";
+            return;
+        }
+
+        try {
+            startButton.disabled = true;
+            status.textContent = "Requesting camera permission...";
+
+            stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "environment" },
+                audio: false
+            });
+
+            video.srcObject = stream;
+            video.hidden = false;
+            preview.hidden = true;
+
+            await video.play();
+
+            captureButton.disabled = false;
+            stopButton.disabled = false;
+            retakeButton.hidden = true;
+
+            status.textContent =
+                "Camera is live. Capture a photo when ready.";
+        } catch (error) {
+            stopCamera();
+            status.textContent =
+                "Could not open camera: " + error.message +
+                ". Check browser camera permission.";
+        } finally {
+            startButton.disabled = !!stream;
+        }
+    }
+
+    async function capturePhoto() {
+        if (!stream || !video.videoWidth) {
+            status.textContent = "Start the camera and wait for the preview first.";
+            return;
+        }
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob(blob => {
+            if (!blob) {
+                status.textContent = "Photo capture failed. Please try again.";
+                return;
+            }
+
+            const photo = new File(
+                [blob],
+                "revive-camera-" + Date.now() + ".jpg",
+                { type: "image/jpeg" }
+            );
+
+            const transfer = new DataTransfer();
+            transfer.items.add(photo);
+            fileInput.files = transfer.files;
+
+            preview.src = URL.createObjectURL(photo);
+            preview.hidden = false;
+            video.hidden = true;
+
+            captureButton.disabled = true;
+            retakeButton.hidden = false;
+
+            status.textContent =
+                "Photo captured and selected. You can now use Upload file or Analyze with AI.";
+
+            stopCamera();
+        }, "image/jpeg", 0.92);
+    }
+
+    startButton.addEventListener("click", startCamera);
+
+    captureButton.addEventListener("click", capturePhoto);
+
+    retakeButton.addEventListener("click", () => {
+        preview.hidden = true;
+        startCamera();
+    });
+
+    stopButton.addEventListener("click", () => {
+        stopCamera();
+        status.textContent = "Camera stopped.";
+    });
+
+    window.addEventListener("pagehide", stopCamera);
+})();
+</script>
+    <script src="/static/script.js"></script>
+
+</body>
+</html>

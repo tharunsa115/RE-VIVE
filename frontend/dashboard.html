@@ -1,0 +1,578 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RE:VIVE â€” Elementra | Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        .dashboard-page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .dashboard-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .dashboard-nav a, .workspace-link {
+            padding: 11px 17px;
+            border-radius: 10px;
+            text-decoration: none;
+            background: #315f43;
+            color: white;
+        }
+
+        .dashboard-intro { margin-bottom: 25px; }
+        .dashboard-intro h1 { font-size: clamp(28px, 5vw, 42px); }
+        .dashboard-intro p { margin-top: 10px; line-height: 1.7; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .stat-card, .panel {
+            padding: 23px;
+            border-radius: 17px;
+            background: #426b50;
+            border: 1px solid #64866a;
+            box-shadow: 0 8px 24px #183b2c18;
+            color: white;
+        }
+
+        .stat-card h2 { font-size: 16px; margin-bottom: 12px; }
+        .stat-number { font-size: 36px; font-weight: bold; color: white; }
+        .stat-card p, .panel p { margin-top: 9px; line-height: 1.6; color: white; }
+
+        .panel { margin: 24px 0; }
+        .panel h2 { margin-bottom: 16px; }
+
+        .green-form label {
+            display: block;
+            margin: 15px 0 7px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .green-form input, .green-form select, .green-form textarea {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b7d2bd;
+            border-radius: 9px;
+            background: #f8fff9;
+            color: #183b2c;
+            font: inherit;
+        }
+
+        .green-form textarea { min-height: 100px; resize: vertical; }
+
+        .green-form button, .secondary-button {
+            margin-top: 16px;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 10px;
+            background: #e5f4e8;
+            color: #183b2c;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .green-form button:disabled { opacity: 0.6; cursor: wait; }
+        .status-message { white-space: pre-wrap; overflow-wrap: anywhere; }
+        .history-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #ffffff45;
+            overflow-wrap: anywhere;
+        }
+
+        .history-item strong { color: white; }
+        .history-item a { color: #e5f4e8; }
+        .muted { opacity: 0.9; font-size: 14px; }
+
+        @media (max-width: 500px) {
+            .dashboard-page { padding: 20px 14px; }
+            .panel, .stat-card { padding: 17px; }
+        }
+    </style>
+</head>
+
+<body>
+<main class="dashboard-page">
+
+    
+<nav class="dashboard-nav" aria-label="Main navigation">
+    <a href="/">AI Workspace</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/freshguard">🍎 FreshGuard AI</a>
+    <a href="/ecorescue">🌍 EcoRescue AI</a>
+</nav>
+
+    <header class="dashboard-intro">
+        <h1>Your Green Journey 🍃</h1>
+        <p>Record your real-world sustainability activities, upload evidence, and track your environmental journey.</p>
+    </header>
+
+    <section class="stats-grid" aria-label="Impact statistics">
+        <article class="stat-card">
+            <h2>🌱 Earth Points</h2>
+            <div class="stat-number" id="earth-points">â€”</div>
+            <p>Total points from submitted actions.</p>
+        </article>
+
+        <article class="stat-card">
+            <h2>💧  Current Streak</h2>
+            <div class="stat-number" id="current-streak">â€”</div>
+            <p>Consecutive days with recorded actions.</p>
+        </article>
+
+        <article class="stat-card">
+            <h2>🍀 Green Actions</h2>
+            <div class="stat-number" id="green-actions-count">â€”</div>
+            <p>Your recorded sustainability activities.</p>
+        </article>
+    </section>
+
+    <section class="panel">
+        <h2>♻️ Record a Green Action</h2>
+        <p>Describe what you did and attach a photo or video as evidence. Each submitted action currently earns 10 prototype points; uploads are not independently verified.</p>
+
+        <form id="green-action-form" class="green-form">
+            <label for="action-type">Action type</label>
+            <select id="action-type" name="action_type" required>
+                <option value="">Choose an action</option>
+                <option value="E-waste recycling">E-waste recycling</option>
+                <option value="Plastic recycling">Plastic recycling</option>
+                <option value="Waste collection">Waste collection</option>
+                <option value="Tree planting">Tree planting</option>
+                <option value="Reuse or repair">Reuse or repair</option>
+                <option value="Community cleanup">Community cleanup</option>
+                <option value="Other eco action">Other eco action</option>
+            </select>
+
+            <label for="action-description">What did you do?</label>
+            <textarea id="action-description" name="description"
+                maxlength="2000" required
+                placeholder="Describe your action, what you collected or recycled, and its environmental benefit."></textarea>
+
+<!-- Live Evidence Camera -->
+<div class="camera-panel">
+    <div class="camera-heading">
+        <span class="camera-icon">◎</span>
+        <div>
+            <h3>Live Evidence Camera</h3>
+            <p>Capture proof of your green action directly from your camera.</p>
+        </div>
+    </div>
+
+    <video id="cameraPreview" autoplay playsinline muted hidden></video>
+    <canvas id="cameraCanvas" hidden></canvas>
+    <img id="capturedPreview" alt="Captured green-action evidence" hidden>
+
+    <p id="cameraStatus" class="muted" role="status" aria-live="polite">
+        Camera is off. Start your camera when you're ready.
+    </p>
+
+
+<div class="camera-buttons">
+    <button type="button" id="startCamera" class="secondary-button">
+        Start Camera
+    </button>
+
+    <button type="button" id="capturePhoto" class="secondary-button" hidden>
+        Capture Photo
+    </button>
+
+    <button type="button" id="retakePhoto" class="secondary-button" hidden>
+        Retake Photo
+    </button>
+
+    <button type="button" id="stopCamera" class="secondary-button" hidden>
+        Stop Camera
+    </button>
+</div>
+
+
+</div>
+            <label for="evidence-file">Upload photo or video evidence (max 25 MB)</label>
+            <input id="evidence-file" name="file" type="file"
+                accept=".jpg,.jpeg,.png,.webp,.mp4,.webm,.mov"
+                required>
+
+            <p class="muted">Supported: JPG, PNG, WEBP, MP4, WEBM and MOV.</p>
+
+            <label>
+                <input id="include-location" type="checkbox"
+                    style="display:inline;width:auto">
+                Include my current GPS location
+            </label>
+
+            <p class="muted">Your browser will ask for permission. Location is optional.</p>
+
+            <button id="submit-action" type="submit">Save Green Action 🌱</button>
+            <button class="secondary-button" id="refresh-dashboard" type="button">
+                Refresh Dashboard
+            </button>
+
+            <p id="form-status" class="status-message" role="status"></p>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>💚 My Green Action History</h2>
+        <div id="green-history">
+            <p>Loading your recorded actions...</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Ready to make an impact?</h2>
+        <p>Use the AI Workspace to scan waste items, analyze documents, and discover practical ways to reuse and recycle materials.</p>
+        <p><a class="workspace-link" href="/">Open AI Workspace 🌿</a></p>
+    </section>
+
+</main>
+
+<script>
+"use strict";
+
+const form = document.getElementById("green-action-form");
+const statusMessage = document.getElementById("form-status");
+const submitButton = document.getElementById("submit-action");
+const refreshButton = document.getElementById("refresh-dashboard");
+
+const cameraVideo = document.getElementById("cameraPreview");
+const cameraCanvas = document.getElementById("cameraCanvas");
+const capturedPreview = document.getElementById("capturedPreview");
+const cameraStatus = document.getElementById("cameraStatus");
+const evidenceInput = document.getElementById("evidence-file");
+
+const startCameraButton = document.getElementById("startCamera");
+const capturePhotoButton = document.getElementById("capturePhoto");
+const retakePhotoButton = document.getElementById("retakePhoto");
+const stopCameraButton = document.getElementById("stopCamera");
+
+let cameraStream = null;
+let capturedPhotoUrl = null;
+
+
+function stopLiveCamera() {
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+
+    cameraVideo.srcObject = null;
+    cameraVideo.hidden = true;
+
+    capturePhotoButton.hidden = true;
+    capturePhotoButton.disabled = true;
+
+    stopCameraButton.hidden = true;
+    stopCameraButton.disabled = true;
+
+    startCameraButton.hidden = false;
+    startCameraButton.disabled = false;
+}
+
+
+
+startCameraButton.addEventListener("click", async () => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+        cameraStatus.textContent =
+            "Camera unavailable. Open this app on localhost or HTTPS.";
+        return;
+    }
+
+    startCameraButton.disabled = true;
+    cameraStatus.textContent = "Requesting camera permission...";
+
+    try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "environment" } },
+            audio: false
+        });
+
+        cameraVideo.srcObject = cameraStream;
+        cameraVideo.hidden = false;
+        capturedPreview.hidden = true;
+
+        await cameraVideo.play();
+
+        startCameraButton.hidden = true;
+
+capturePhotoButton.hidden = false;
+capturePhotoButton.disabled = false;
+
+stopCameraButton.hidden = false;
+stopCameraButton.disabled = false;
+
+retakePhotoButton.hidden = true;
+
+        cameraStatus.textContent =
+            "Camera is live. Capture your evidence when ready.";
+    } catch (error) {
+        stopLiveCamera();
+        cameraStatus.textContent =
+            "Could not start camera: " + error.message;
+    } finally {
+        startCameraButton.disabled = !!cameraStream;
+    }
+});
+
+capturePhotoButton.addEventListener("click", () => {
+    if (!cameraStream || !cameraVideo.videoWidth) {
+        cameraStatus.textContent =
+            "Wait for the camera preview before taking a photo.";
+        return;
+    }
+
+    cameraCanvas.width = cameraVideo.videoWidth;
+    cameraCanvas.height = cameraVideo.videoHeight;
+
+    cameraCanvas.getContext("2d").drawImage(
+        cameraVideo,
+        0,
+        0,
+        cameraCanvas.width,
+        cameraCanvas.height
+    );
+
+    cameraCanvas.toBlob(blob => {
+        if (!blob) {
+            cameraStatus.textContent =
+                "Photo capture failed. Please try again.";
+            return;
+        }
+
+        const photo = new File(
+            [blob],
+            "green-evidence-" + Date.now() + ".jpg",
+            { type: "image/jpeg" }
+        );
+
+        const transfer = new DataTransfer();
+        transfer.items.add(photo);
+        evidenceInput.files = transfer.files;
+
+        if (capturedPhotoUrl) {
+            URL.revokeObjectURL(capturedPhotoUrl);
+        }
+
+        capturedPhotoUrl = URL.createObjectURL(photo);
+        capturedPreview.src = capturedPhotoUrl;
+        capturedPreview.hidden = false;
+        cameraVideo.hidden = true;
+
+        stopLiveCamera();
+
+        capturePhotoButton.disabled = true;
+        retakePhotoButton.hidden = false;
+
+        cameraStatus.textContent =
+            "Photo attached! Complete your description and save the green action.";
+    }, "image/jpeg", 0.92);
+});
+
+retakePhotoButton.addEventListener("click", () => {
+    evidenceInput.value = "";
+    capturedPreview.hidden = true;
+    startCameraButton.click();
+});
+
+stopCameraButton.addEventListener("click", () => {
+    stopLiveCamera();
+    cameraStatus.textContent = "Camera stopped.";
+});
+
+window.addEventListener("pagehide", stopLiveCamera);
+
+async function loadStats() {
+    const response = await fetch("/green-stats", { cache: "no-store" });
+    if (!response.ok) throw new Error("Could not load statistics.");
+
+    const stats = await response.json();
+
+    document.getElementById("earth-points").textContent = stats.earth_points;
+    document.getElementById("current-streak").textContent =
+        stats.current_streak + (stats.current_streak === 1 ? " day" : " days");
+    document.getElementById("green-actions-count").textContent = stats.green_actions;
+}
+
+async function loadHistory() {
+    const container = document.getElementById("green-history");
+    const response = await fetch("/green-history", { cache: "no-store" });
+
+    if (!response.ok) throw new Error("Could not load action history.");
+
+    const actions = await response.json();
+    container.replaceChildren();
+
+    if (!actions.length) {
+        container.textContent = "No green actions recorded yet.";
+        return;
+    }
+
+    for (const action of actions) {
+        const item = document.createElement("article");
+        item.className = "history-item";
+
+        const title = document.createElement("strong");
+        title.textContent = action.action_type;
+
+        const description = document.createElement("p");
+        description.textContent = action.description;
+
+        const details = document.createElement("p");
+        details.className = "muted";
+        details.textContent = `${action.points} points | ${action.created_at}`;
+
+        const evidence = document.createElement("p");
+        evidence.className = "muted";
+        evidence.textContent = "Evidence saved: " + action.evidence_path;
+
+        item.append(title, description, details, evidence);
+
+        if (action.latitude != null && action.longitude != null) {
+            const location = document.createElement("p");
+            location.className = "muted";
+            location.textContent = `GPS: ${action.latitude}, ${action.longitude}`;
+            item.appendChild(location);
+        }
+
+        container.appendChild(item);
+    }
+}
+
+async function refreshDashboard() {
+    const container = document.getElementById("green-history");
+
+    try {
+        await Promise.all([loadStats(), loadHistory()]);
+    } catch (error) {
+        container.textContent = "Unable to load dashboard: " + error.message;
+        statusMessage.textContent = error.message;
+        console.error("Dashboard refresh error:", error);
+    }
+}
+
+// Refresh Dashboard reloads the entire page.
+refreshButton.addEventListener("click", () => {
+    window.location.reload();
+});
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    statusMessage.textContent = "";
+
+    const fileInput = document.getElementById("evidence-file");
+    const file = fileInput.files[0];
+
+    if (!form.reportValidity()) return;
+
+    if (!file) {
+        statusMessage.textContent = "Please choose a photo or video.";
+        return;
+    }
+
+    const allowedExtensions = /\.(jpg|jpeg|png|webp|mp4|webm|mov)$/i;
+
+    if (!allowedExtensions.test(file.name)) {
+        statusMessage.textContent =
+            "Unsupported file. Choose JPG, PNG, WEBP, MP4, WEBM, or MOV.";
+        fileInput.value = "";
+        return;
+    }
+
+    if (file.size > 25 * 1024 * 1024) {
+        statusMessage.textContent = "The file must be 25 MB or smaller.";
+        fileInput.value = "";
+        return;
+    }
+
+    const data = new FormData(form);
+    submitButton.disabled = true;
+    submitButton.textContent = "Saving action...";
+
+    try {
+        if (document.getElementById("include-location").checked) {
+            if (!navigator.geolocation) {
+                throw new Error("GPS is not supported by this browser.");
+            }
+
+            statusMessage.textContent = "Requesting GPS permission...";
+
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                });
+            });
+
+            data.append("latitude", position.coords.latitude);
+            data.append("longitude", position.coords.longitude);
+        }
+
+        statusMessage.textContent = "Uploading evidence and saving action...";
+
+        const response = await fetch("/green-actions", {
+            method: "POST",
+            body: data
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.detail || "Could not save this action.");
+        }
+
+        const points = result.points_earned ?? result.points ?? 10;
+
+        statusMessage.textContent =
+            `Success! ${points} points added.\n` +
+            `AI Evidence Assessment: ${result.ai_status || "NOT_ASSESSED"}\n` +
+            `${result.ai_report || "No AI report available."}`;
+
+       form.reset();
+
+stopLiveCamera();
+
+capturedPreview.src = "";
+capturedPreview.hidden = true;
+
+if (capturedPhotoUrl) {
+    URL.revokeObjectURL(capturedPhotoUrl);
+    capturedPhotoUrl = null;
+}
+
+retakePhotoButton.hidden = true;
+startCameraButton.hidden = false;
+
+cameraStatus.textContent =
+    "Camera is off. Start your camera when you're ready.";
+
+await refreshDashboard();
+
+    } catch (error) {
+        statusMessage.textContent =
+            error.message || "Something went wrong while saving the action.";
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Save Green Action 🌱";
+    }
+});
+
+refreshDashboard();
+</script>
+</body>
+</html>
+
